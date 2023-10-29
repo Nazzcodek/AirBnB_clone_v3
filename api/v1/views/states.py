@@ -66,20 +66,20 @@ def create_state():
         data = request.get_json()
         # post request has no name attribute
         if 'name' not in data:
-            return jsonify(error='Missing name'), 400
+            return jsonify("Missing name"), 400
 
         # return the created state
         state = State(**data)
         state.save()
-        state = state.to_dict()
-        return jsonify(state), 201
+        return jsonify(state.to_dict()), 201
 
     # Not a valid json content type
     except BadRequest:
-        return jsonify(error='Not a JSON'), 400
+        return jsonify("Not a JSON"), 400
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['PUT'],
+                 strict_slashes=False)
 def update_state(state_id):
     """
     This function updates a state object in the database.
@@ -94,7 +94,7 @@ def update_state(state_id):
 
     # request.get_jason returns none if parsing is not completed
     elif request.get_json() is None:
-        return jsonify(error='Not a JSON'), 400
+        return jsonify('Not a JSON'), 400
 
     # confirm if id, created_at or updated_at are in the contents
     for attribute, value in request.get_json():
@@ -102,5 +102,5 @@ def update_state(state_id):
             pass
         else:
             state.__dict__[attribute] = value
-    state.save()
+    storage.save()
     return jsonify(state.to_dict()), 200
