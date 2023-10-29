@@ -98,13 +98,14 @@ def update_city(city_id):
     """
 
     city = storage.get(City, city_id)
+    print(city)
 
     if city is None:
         abort(404)
 
     data = request.get_json()
 
-    if not data:
+    if data is None:
         return jsonify('Not a JSON'), 400
 
     for key, value in data.items():
@@ -114,4 +115,4 @@ def update_city(city_id):
             setattr(city, key, value)
 
     storage.save()
-    return jsonify(state.to_dict()), 200
+    return jsonify(city.to_dict()), 200
