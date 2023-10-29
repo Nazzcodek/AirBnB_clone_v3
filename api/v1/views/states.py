@@ -50,6 +50,7 @@ def delete_state(state_id):
     else:
         # deleting the state and return status code 200
         storage.delete(state)
+        storage.save()
         return jsonify({}), 200
 
 
@@ -101,5 +102,5 @@ def update_state(state_id):
             pass
         else:
             state.__dict__[attribute] = value
-
+    state.save()
     return jsonify(state.to_dict()), 200
