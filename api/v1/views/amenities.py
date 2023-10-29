@@ -93,5 +93,3 @@ def update_amenity(amenity_id):
     amenity.save()
     # storage.save()
     return jsonify(amenity.to_dict()), 200
-
-
