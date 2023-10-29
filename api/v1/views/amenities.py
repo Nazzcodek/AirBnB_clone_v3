@@ -69,7 +69,6 @@ def create_amenity():
     return jsonify(amenity.to_dict()), 201
 
 
-
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'],
                  strict_slashes=False)
 def update_amenity(amenity_id):
@@ -89,8 +88,8 @@ def update_amenity(amenity_id):
         for key, value in data.items():
             if key not in ['id', 'created_at', 'updated_at']:
                 amenity.__dict__[key] = value
-        amenity.save()
-        # storage.save()
+        #amenity.save()
+        storage.save()
 
         return jsonify(amenity.to_dict()), 200
 
