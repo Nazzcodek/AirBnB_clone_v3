@@ -97,7 +97,7 @@ def update_city(city_id):
     This error response is also for inaccurate content type.
     """
 
-    state = storage.get(City, city_id)
+    city = storage.get(City, city_id)
 
     if state is None:
         abort(404)
@@ -111,6 +111,7 @@ def update_city(city_id):
         if key in ['id', 'state_id', 'created_at', 'updated_at']:
             pass
         else:
-            state.__dict__[key] = value
-    storage.save()
+            city.__dict__[key] = value
+    city.save()
+    # storage.save()
     return jsonify(state.to_dict()), 200
