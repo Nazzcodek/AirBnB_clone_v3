@@ -74,10 +74,9 @@ def create_city(state_id):
         abort(404)
 
     data = request.get_json()
-    print("\n\n\n==============Got Here==================\n\n\n")
 
     if not data:
-        # print('\n\n\n=====\nSent the Error Message for not JSON.\n=====\n\n')
+        # print('\n\n\n===\nSent the Error Message for not JSON.\n=====\n\n')
         return jsonify("Not a JSON"), 400
     if 'name' not in data:
         # print('\n\n\n======\nSent the Error Message for no name.\n======\n\n')
