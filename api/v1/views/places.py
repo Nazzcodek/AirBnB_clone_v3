@@ -45,7 +45,7 @@ def places_by_city(city_id):
         return jsonify(place.to_dict()), 201
 
 
-@app_views.route('/places/<place_id>',
+@app_views.route('/places/<place_id>/',
                  methods=['GET', 'PUT', 'DELETE'],
                  strict_slashes=False)
 def modify_place(place_id):
@@ -63,11 +63,11 @@ def modify_place(place_id):
         return jsonify(), 200
 
     if request.method == 'PUT':
-        data = request.json_get()
+        data = request.get_json()
         if not data:
             abort(400, 'Not a JSON')
 
-        atrr = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
+        attr = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
         for k, v in data.items():
             if k not in attr:
                 setattr(place, k, v)
