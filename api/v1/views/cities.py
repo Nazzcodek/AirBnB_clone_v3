@@ -99,7 +99,7 @@ def update_city(city_id):
 
     city = storage.get(City, city_id)
 
-    if state is None:
+    if city is None:
         abort(404)
 
     data = request.get_json()
