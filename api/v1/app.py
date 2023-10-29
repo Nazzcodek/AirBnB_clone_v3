@@ -26,7 +26,7 @@ def not_found(error):
 def close_session(exe):
     """This close the connection session
     """
-    return storage.close()
+    storage.close()
 
 
 if __name__ == "__main__":
