@@ -79,7 +79,7 @@ def create_city(state_id):
         # print('\n\n\n===\nSent the Error Message for not JSON.\n=====\n\n')
         return jsonify("Not a JSON"), 400
     if 'name' not in data:
-        # print('\n\n\n======\nSent the Error Message for no name.\n======\n\n')
+        # print('\n\n\n======\nSent the Error Message for no name.\n===\n\n')
         return jsonify("Missing name"), 400
         # abort(400, "Missing name")
 
