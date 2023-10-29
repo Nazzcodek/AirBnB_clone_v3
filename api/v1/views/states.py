@@ -62,20 +62,20 @@ def create_state():
     with the message 'Missing name' is returned.
     """
 
-    try:
-        data = request.get_json()
-        # post request has no name attribute
-        if 'name' not in data:
-            return jsonify("Missing name"), 400
-
-        # return the created state
-        state = State(**data)
-        state.save()
-        return jsonify(state.to_dict()), 201
+    data = request.get_json()
 
     # Not a valid json content type
-    except BadRequest:
+    if data is None:
         return jsonify("Not a JSON"), 400
+
+    # post request has no name attribute
+    if 'name' not in data:
+        return jsonify("Missing name"), 400
+
+    # return the created state
+    state = State(**data)
+    state.save()
+    return jsonify(state.to_dict()), 201
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'],
@@ -102,5 +102,5 @@ def update_state(state_id):
             pass
         else:
             state.__dict__[attribute] = value
-    storage.save()
+    state.save()
     return jsonify(state.to_dict()), 200
