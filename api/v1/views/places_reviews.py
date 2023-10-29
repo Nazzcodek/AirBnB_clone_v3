@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """This is the module for place review API"""
 from api.v1.views import app_views
-from flask import jsonify, request
+from flask import jsonify, request, abort
 from models import storage
 from models.place import Place
 from models.review import Review
@@ -20,7 +20,7 @@ def place_reviews(place_id):
 
     if request.method == 'GET':
         reviews = [review.to_dict() for review in place.reviews]
-        return jsonify(reviews) 
+        return jsonify(reviews)
 
     if request.method == 'POST':
         data = request.get_json()
@@ -64,11 +64,11 @@ def modify_reviews(review_id):
         return jsonify(), 200
 
     if request.method == 'PUT':
-        data = request.json_get()
+        data = request.get_json()
         if not data:
             abort(400, 'Not a JSON')
 
-        atrr = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
+        attr = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
         for k, v in data.items():
             if k not in attr:
                 setattr(place, k, v)
