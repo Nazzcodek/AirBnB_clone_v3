@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""This is the module for the Place view"""
+"""
+This is the module for the Place view
+"""
 from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models import storage
@@ -9,8 +11,8 @@ from models.user import User
 
 
 @app_views.route('/cities/<city_id>/places',
-                 strict_slashes=False,
-                 methods=['GET', 'POST']
+                 methods=['GET', 'POST'],
+                 strict_slashes=False
                  )
 def places_by_city(city_id):
     """This method retrive and create place(s) in a city"""
