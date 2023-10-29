@@ -18,7 +18,7 @@ CORS(app, resources={r"/api/*": {"origins": "0.0.0.0"}})
 def not_found(error):
     """This function handles the not found error
     """
-    return jsonify(error="Not found"), 404
+    return make_response(jsonify({'error': "Not found"}), 404)
 
 
 @app.teardown_appcontext
