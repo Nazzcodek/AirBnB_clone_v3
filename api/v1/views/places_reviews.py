@@ -71,6 +71,6 @@ def modify_reviews(review_id):
         attr = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
         for k, v in data.items():
             if k not in attr:
-                setattr(place, k, v)
+                setattr(review, k, v)
         storage.save()
         return jsonify(review.to_dict()), 200
