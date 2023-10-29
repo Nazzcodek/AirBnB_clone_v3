@@ -8,7 +8,7 @@ from models.city import City
 from models.user import User
 
 
-@app_views.route('/api/v1/cities/<city_id>/places',
+@app_views.route('/cities/<city_id>/places',
                  strict_slashes=False,
                  methods=['GET', 'POST']
                  )
@@ -24,13 +24,17 @@ def places_by_city(city_id):
 
     if request.method == 'POST':
         data = request.get_json()
+
         if not data:
             abort(400, 'Not a JSON')
+
         if 'user_id' not in data:
-            abort(400, 'Missing user_d')
+            abort(400, 'Missing user_id')
+
         user = storage.get(User, data['user_id'])
         if not user:
             abort(404)
+
         if 'name' not in data:
             return abort(400, 'Missing name')
         data['city_id'] = city_id
