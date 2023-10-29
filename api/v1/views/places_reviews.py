@@ -8,7 +8,7 @@ from models.review import Review
 from models.user import User
 
 
-@app_views.route('places/<place_id>/reviews',
+@app_views.route('places/<place_id>/reviews/',
                  methods=['GET', 'POST'],
                  strict_slashes=False
                  )
@@ -45,7 +45,7 @@ def place_reviews(place_id):
         return jsonify(review.to_dict()), 201
 
 
-@app_views.route('reviews/<review_id>',
+@app_views.route('reviews/<review_id>/',
                  methods=['GET', 'PUT', 'DELETE'],
                  strict_slashes=False
                  )
