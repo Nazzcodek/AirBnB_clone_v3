@@ -82,16 +82,16 @@ def update_amenity(amenity_id):
     if amenity is None:
         abort(404)
 
-    try:
-        data = request.get_json()
-
-        for key, value in data.items():
-            if key not in ['id', 'created_at', 'updated_at']:
-                amenity.__dict__[key] = value
-        # amenity.save()
-        storage.save()
-
-        return jsonify(amenity.to_dict()), 200
-
-    except BadRequest:
+    data = request.get_json()
+    if data is None:
         return jsonify("Not a JSON"), 400
+
+    for key, value in data.items():
+        if key not in ['id', 'created_at', 'updated_at']:
+            amenity.__dict__[key] = value
+
+    amenity.save()
+    # storage.save()
+    return jsonify(amenity.to_dict()), 200
+
+
