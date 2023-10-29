@@ -67,20 +67,22 @@ def create_city(state_id):
     content type is not JSON'ed or if the content has no name attribute.
     """
 
-    print('Got Here')
     state = storage.get(State, state_id)
 
     # When the state is not in the database
     if state is None:
-        print('problem is here')
         abort(404)
 
     data = request.get_json()
+    print("\n\n\n==============Got Here==================\n\n\n")
 
     if not data:
-        abort(404, 'Not a JSON')
+        # print('\n\n\n=====\nSent the Error Message for not JSON.\n=====\n\n')
+        return jsonify("Not a JSON"), 400
     if 'name' not in data:
-        abort(404, 'Missing name')
+        # print('\n\n\n======\nSent the Error Message for no name.\n======\n\n')
+        return jsonify("Missing name"), 400
+        # abort(400, "Missing name")
 
     data['state_id'] = state_id
     city = City(**data)
@@ -104,7 +106,7 @@ def update_city(city_id):
     data = request.get_json()
 
     if not data:
-        abort(404, 'Not a JSON')
+        return jsonify('Not a JSON'), 400
 
     for key, value in data.items():
         if key in ['id', 'state_id', 'created_at', 'updated_at']:
