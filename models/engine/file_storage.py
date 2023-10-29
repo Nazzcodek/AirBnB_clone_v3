@@ -38,7 +38,7 @@ class FileStorage:
         """This method retrieve one object form storage"""
         if cls and id:
             obj = cls.__name__
-            key = f"{obj}.{id}"
+            key = "{}.{}".format(obj, id)
             return self.__objects.get(key)
 
         return None
