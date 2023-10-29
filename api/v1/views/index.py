@@ -7,13 +7,13 @@ from flask import jsonify
 from models import storage
 
 
-@app_views.route('/status/', strict_slashes=False)
+@app_views.route('/status/', methods=['GET'], strict_slashes=False)
 def status():
     """returns app_views API status"""
     return jsonify(status='OK')
 
 
-@app_views.route('/stats/', strict_slashes=False)
+@app_views.route('/stats/', methods=['GET'], strict_slashes=False)
 def stats():
     """This endpoint retrieves the number of each objects by type"""
     objects = {
