@@ -14,18 +14,18 @@ app.register_blueprint(app_views)
 CORS(app, resources={r"/api/*": {"origins": "0.0.0.0"}})
 
 
-@app.errorhandler(404)
-def not_found(error):
-    """This function handles the not found error
-    """
-    return make_response(jsonify({'error': "Not found"}), 404)
-
-
 @app.teardown_appcontext
 def close_session(exe):
     """This close the connection session
     """
     return storage.close()
+
+
+@app.errorhandler(404)
+def not_found(error):
+    """This function handles the not found error
+    """
+    return jsonify(error="Not found"), 404
 
 
 if __name__ == "__main__":
