@@ -97,7 +97,7 @@ def update_state(state_id):
         return jsonify('Not a JSON'), 400
 
     # confirm if id, created_at or updated_at are in the contents
-    for attribute, value in request.get_json():
+    for attribute, value in request.get_json().items():
         if attribute in ['id', 'created_at', 'updated_at']:
             pass
         else:
