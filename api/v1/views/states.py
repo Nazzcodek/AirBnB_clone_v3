@@ -101,6 +101,6 @@ def update_state(state_id):
         if attribute in ['id', 'created_at', 'updated_at']:
             pass
         else:
-            state.__dict__[attribute] = value
-    state.save()
+            setattr(state, attribute, value)
+    storage.save()
     return jsonify(state.to_dict()), 200

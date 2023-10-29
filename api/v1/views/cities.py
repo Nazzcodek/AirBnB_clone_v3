@@ -111,7 +111,7 @@ def update_city(city_id):
         if key in ['id', 'state_id', 'created_at', 'updated_at']:
             pass
         else:
-            city.__dict__[key] = value
-    city.save()
-    # storage.save()
+            setattr(city, key, value)
+
+    storage.save()
     return jsonify(state.to_dict()), 200
