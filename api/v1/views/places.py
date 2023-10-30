@@ -87,7 +87,7 @@ def search_place():
     # get json data
     data = request.get_json()
     if data is None:
-        abort(404, 'Not a JSON')
+        abort(400, 'Not a JSON')
 
     # extract parameter if exist and set to empty if not exist
     states = data.get('states', [])
