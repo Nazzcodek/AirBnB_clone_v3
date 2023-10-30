@@ -8,6 +8,7 @@ from models import storage
 from models.place import Place
 from models.city import City
 from models.user import User
+from models.amenity import Amenity
 
 
 @app_views.route('/cities/<city_id>/places',
@@ -73,3 +74,68 @@ def modify_place(place_id):
                 setattr(place, k, v)
         storage.save()
         return jsonify(place.to_dict()), 200
+
+
+@app_views.route('/places_search/', methods=['POST'], strict_slashes=False)
+def search_place():
+    """
+    This endpoint retrieves all Place objects
+    depending of the JSON in the body of the request.
+    """
+    places = [place for place in storage.all('Place').values()]
+
+    # get json data
+    data = request.get_json()
+    if data is None:
+        abort(404, 'Not a JSON')
+
+    # extract parameter if exist and set to empty if not exist
+    states = data.get('states', [])
+    cities = data.get('cities', [])
+    amenities = data.get('amenities', [])
+
+    # fiter by states and cities
+    if states:
+        cities = storage.all(City)
+        state_cities = set([city.id for city in cities.values()
+                            if city.state_id in states])
+    else:
+        state_cities = set()
+
+    # get all specified cities
+    if cities:
+        cities = set(
+            [city_id for city_id in cities if storage.get(City, city_id)])
+        state_cities = state_cities.union(cities)
+
+    # Filter places based on specified cities
+    if state_cities:
+        places = [place for place in places if place.city_id in state_cities]
+
+    # Return all places if no amenities are specified
+    elif amenities is None:
+        place_dict = [place.to_dict() for place in places]
+        return jsonify(place_dict)
+
+    # Filter places based on specified amenities
+    places_amenities = []
+    if amenities:
+        amenities = set([amenity_id for amenity_id in amenities
+                         if storage.get(Amenity, amenity_id)])
+        for place in places:
+            place_amenities = None
+            if STORAGE_TYPE == 'db' and place.amenities:
+                place_amenities = [amenity.id for amenity in place.amenities]
+            elif place.amenities:
+                place_amenities = place.amenities
+            amenity = all(
+                [amenity in place_amenities for amenity in amenities])
+            if place_amenities and amenity:
+                places_amenities.append(place)
+
+    else:
+        places_amenities = places
+
+    # filter place
+    place_dict = [place.to_dict() for place in places_amenities]
+    return jsonify(place_dict)
