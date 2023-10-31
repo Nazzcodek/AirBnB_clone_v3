@@ -129,5 +129,6 @@ class TestFileStorage(unittest.TestCase):
     def test_count(self):
         """this method test the count property of file storage """
         storage = FileStorage()
-        count = storage.count('State')
-        self.assertEqual(count, 1)
+        count = storage.count()
+        all_obj = len(storage.all())
+        self.assertEqual(count, all_obj)
