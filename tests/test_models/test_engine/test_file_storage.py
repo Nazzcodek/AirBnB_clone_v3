@@ -118,12 +118,12 @@ class TestFileStorage(unittest.TestCase):
     def test_get(self):
         """This method test the get property of file storage"""
         storage = FileStorage()
-        state_instance = State()
+        state_instance = State(name='State')
         storage.new(state_instance)
         storage.save()
 
         state = storage.get(State, state_instance.id)
-        self.assertEqual(state.id, state_instance.id)
+        self.assertEqual(state, state_instance)
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count(self):
